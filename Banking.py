@@ -18,6 +18,7 @@ class Banking():
     #method to withdraw
     def withdraw(self):
         current_balance = (self.init_balance - self.x)
+        #overdraw error message
         if current_balance < 0:
             print("Error! {} will be charged an overdraw fee!".format(self.name))
         else:
@@ -31,16 +32,17 @@ class Banking():
         print("Your balance is {} ".format(self.current_balance))
 
 
-#error message if overdraws
+#dummy data to test class features
 
-#create users, include their starting balance
-bank_user1 = Banking(name="Persephone",init_balance=50, x=25)
-bank_user1.deposit()
+"""
+#bank_user1 = Banking(name="Persephone",init_balance=50, x=25)
+#bank_user1.deposit()
 
-bank_user2 = Banking(name="Ariadne",init_balance=500, x=25)
-bank_user2.withdraw()
+#bank_user2 = Banking(name="Ariadne",init_balance=500, x=25)
+#bank_user2.withdraw()
 
-bank_user3 = Banking(name="Hera", init_balance=100, x=225)
-bank_user3.withdraw()
+#bank_user3 = Banking(name="Hera", init_balance=100, x=225)
+#bank_user3.withdraw()
+"""
 
 
