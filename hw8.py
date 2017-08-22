@@ -9,25 +9,17 @@ from Banking import Banking
 
 #instantiate two users
 
-print("Welcome to Goddess Credit Union(GCU)")
-print("Please provide your name to deposit or withdraw from your account")
-user = input()
+print("Welcome user Artemis! Your initial balance is $50")
+selection = int(input("Select 1. for deposit or 2. for withdraw"))
+raspberry = int(input("How much would you like to deposit/withdraw"))
 
-if user == "Artemis":
+bank_user1 = Banking(name="Artemis", init_balance=50, x=raspberry)
 
-    print("Welcome user Artemis! Your initial balance is $50")
-    selection = int(input("Select 1. for deposit or 2. for withdraw"))
-    raspberry = int(input("How much would you like to deposit/withdraw"))
-
-    bank_user1 = Banking(name="Artemis", init_balance=50, x=raspberry)
-
-    if selection == 1:
-    bank_user1.deposit()
-    if selection ==2:
-    bank_user2.withdraw()
-    print("\n")
-
-
+if selection == 1:
+bank_user1.deposit()
+if selection ==2:
+bank_user2.withdraw()
+print("\n")
 
 
 print("Welcome user Persephone. You'r initial amount is $5000")
