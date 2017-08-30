@@ -31,13 +31,15 @@ class Hangman_Game():
         # self.printFile()
         self.set_up()
 
-    #create a set up including welcome message, select a word randomly from a list,
+    #create a set up including welcome message and counters and variables, printing functions
     def set_up(self):
         print("Hi! Welcome to Harry Potter Hangman!")
+        #randomly select a word from list in init
         self.selected_word = self.words[randint(0, 13)]
         self.blank_word = []
         for x in self.selected_word:
             self.blank_word.append("*")
+        #initialize counters and set at 0
         self.current_art = 0
         self.correct_letters = 0
         print(self.art[0])
@@ -75,6 +77,7 @@ class Hangman_Game():
                     print(''.join(self.blank_word))
                     self.get_letter()
 
+    # create a definition to get letter gusses through user input
     def get_letter(self):
         user_input = ""
         while (len(user_input) != 1):
@@ -82,10 +85,6 @@ class Hangman_Game():
         print(user_input)
         self.guess(user_input)
 
-    #not yet working print feature!!!
-
-    #initialize class
-    # art for the hangman board
 
 Hangman_Game()
 
