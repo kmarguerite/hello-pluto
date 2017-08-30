@@ -22,6 +22,7 @@ from random import randint
 # create a hangman class, use set_up and init in order to start the gameplay
 class Hangman_Game():
     #initialize the game, set up a word bank, set up 'game art'
+    #the initialize function outputs
     def __init__(self):
         self.words = ["wizard", "potions", "herbology", "wand", "quidditch", "quaffle", "owlry", "accio", "cauldron",  "mandrake", "basilisk", "dragon", "charms"]
         self.art = ["  ————\n     |\n     |\n     |\n——————", "  ————\n  O  |\n     |\n     |\n——————",
@@ -31,7 +32,7 @@ class Hangman_Game():
         # self.printFile()
         self.set_up()
 
-    #create a set up including welcome message and counters and variables, printing functions
+    #create a function to set up including welcome message and counters and variables, printing functions.
     def set_up(self):
         print("Hi! Welcome to Harry Potter Hangman!")
         #randomly select a word from list in init
@@ -48,7 +49,7 @@ class Hangman_Game():
         return(self.selected_word)
 
 
-    #create a definition for guesses from user input
+    #create a function for guesses from user input, which are characters. Outputs continue guessing loop, winning, and losing
     def guess(self, letter):
         letter_occurrences = self.selected_word.count(letter)
         if letter_occurrences > 0:
@@ -67,6 +68,8 @@ class Hangman_Game():
 
             else:
                 self.get_letter()
+
+        #print message if game is lost
         else:
             self.current_art += 1
             if self.current_art < 7:
@@ -77,7 +80,7 @@ class Hangman_Game():
                     print(''.join(self.blank_word))
                     self.get_letter()
 
-    # create a definition to get letter gusses through user input
+    # create a function to get letter guesses through user input
     def get_letter(self):
         user_input = ""
         while (len(user_input) != 1):
