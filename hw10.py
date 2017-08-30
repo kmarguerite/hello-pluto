@@ -10,223 +10,87 @@ To run this script from the commandline type
 python hw10.py
 
 Assumptions:
+Everyone loves Harry Potter
 
 Requirements:
 Anaconda Python3
 random
 
 """
+from random import randint
+
+# create a hangman class, use set_up and init in order to start the gameplay
+class Hangman_Game():
+    #initialize the game, set up a word bank, set up 'game art'
+    def __init__(self):
+        self.words = ["wizard", "potions", "herbology", "wand", "quidditch", "quaffle", "owlry", "accio", "cauldron",  "mandrake", "basilisk", "dragon", "charms"]
+        self.art = ["  ————\n     |\n     |\n     |\n——————", "  ————\n  O  |\n     |\n     |\n——————",
+                    "  ————\n  O  |\n /   |\n     |\n——————", "  ————\n  O  |\n / \ |\n     |\n——————",
+                    "  ————\n  O  |\n /|\ |\n     |\n——————", "  ————\n  O  |\n /|\ |\n /   |\n——————",
+                    "  ————\n  0  |\n /|\ |\n / \ |\n——————"]
+        # self.printFile()
+        self.set_up()
+
+    #create a set up including welcome message, select a word randomly from a list,
+    def set_up(self):
+        print("Hi! Welcome to Harry Potter Hangman!")
+        self.selected_word = self.words[randint(0, 13)]
+        self.blank_word = []
+        for x in self.selected_word:
+            self.blank_word.append("*")
+        self.current_art = 0
+        self.correct_letters = 0
+        print(self.art[0])
+        print(''.join(self.blank_word))
+        self.get_letter()
+        return(self.selected_word)
 
 
+    #create a definition for guesses from user input
+    def guess(self, letter):
+        letter_occurrences = self.selected_word.count(letter)
+        if letter_occurrences > 0:
+            previous_occurrence = 0
+            for occurrence in range(0, letter_occurrences):
+                letter_location = self.selected_word.find(letter, previous_occurrence)
+                self.blank_word[letter_location] = letter
+                previous_occurrence = letter_location + 1
+            print(self.art[self.current_art])
+            print(''.join(self.blank_word))
 
-#imports
-import random
+            #print message for the winner!
+            self.correct_letters += letter_occurrences
+            if self.correct_letters == len(self.selected_word):
+                print("\nCongratulations, You Win!")
 
-
-#welcoming the user
-name = input("What is your name? ")
-
-
-
-def main():
-    print(" I'm going to pick a word. Guess one letter at a time! You have 10 guesses!")
-
-    # setting up the game loop
-    game = True
-    while game:
-        # set up the game loop
-
-        words = ["wizard", "potions", "herbology", "wand",
-                 "quidditch", "quaffle", "owlry", "accio", "cauldron",
-                 "mandrake", "basilisk", "dragon", "charms"
-                 ]
-
-        chosen_word = random.choice(words).lower()
-        player_guess = None # will hold the players guess
-        guessed_letters = [] # a list of letters guessed so far
-        word_guessed = []
-        for letter in chosen_word:
-            word_guessed.append("-") # create an unguessed, blank version of the word
-        joined_word = None # joins the words in the list word_guessed
-
-# hangman constants (template obtained from Python Programming Third Edition)
-        print_hangman = (
-"""
------
-|   |
-|
-|
-|
-|
-|
-|
-|
---------
-""",
-"""
------
-|   |
-|   0
-|
-|
-|
-|
-|
-|
---------
-""",
-"""
------
-|   |
-|   0
-|  -+-
-|
-|
-|
-|
-|
---------
-""",
-"""
------
-|   |
-|   0
-| /-+-
-|
-|
-|
-|
-|
---------
-""",
-"""
------
-|   |
-|   0
-| /-+-\ 
-|
-|
-|
-|
-|
---------
-""",
-"""
------
-|   |
-|   0
-| /-+-\ 
-|   | 
-|
-|
-|
-|
---------
-""",
-"""
------
-|   |
-|   0
-| /-+-\ 
-|   | 
-|   | 
-|
-|
-|
---------
-""",
-"""
------
-|   |
-|   0
-| /-+-\ 
-|   | 
-|   | 
-|  |
-|
-|
---------
-""",
-"""
------
-|   |
-|   0
-| /-+-\ 
-|   | 
-|   | 
-|  | 
-|  | 
-|
---------
-""",
-"""
------
-|   |
-|   0
-| /-+-\ 
-|   | 
-|   | 
-|  | | 
-|  | 
-|
---------
-""",
-"""
------
-|   |
-|   0
-| /-+-\ 
-|   | 
-|   | 
-|  | | 
-|  | | 
-|
---------
-""")
-
-        print(print_hangman[0])
-        attempts = len(print_hangman) - 1
-
-        #track the number of failed attempts,
-        while (attempts != 0 and "-" in word_guessed):
-            print(("\nYou have {} attempts remaining").format(attempts))
-            joined_word = "".join(word_guessed)
-            print(joined_word)
-
-            try:
-                player_guess = str(input("\nPlease select a letter between A-Z" + "\n> ")).lower()
-            except: # check valid input
-                print("That is not valid input. Please try again.")
-                continue
-            #error messages if uder inputs non-letters, too many letters.
             else:
-                if not player_guess.isalpha():
-                    print("Did you take a forgetfullness potion! That is not a letter! Try again.")
-                    continue
-                elif len(player_guess) > 1:
-                    print("Try again.")
-                    continue
+                self.get_letter()
+        else:
+            self.current_art += 1
+            if self.current_art < 7:
+                print(self.art[self.current_art])
+                if self.current_art == 6:
+                    print("Game Over! The correct word was '{}'".format(self.selected_word))
+                else:
+                    print(''.join(self.blank_word))
+                    self.get_letter()
 
-            guessed_letters.append(player_guess)
+    def get_letter(self):
+        user_input = ""
+        while (len(user_input) != 1):
+            user_input = input("Guess a letter.\n").lower()
+        print(user_input)
+        self.guess(user_input)
 
-            for letter in range(len(chosen_word)):
-                if player_guess == chosen_word[letter]:
-                    word_guessed[letter] = player_guess # replace all letters in the chosen word that match the players guess
+    #not yet working print feature!!!
 
-            if player_guess not in chosen_word:
-                attempts -= 1
-                print(print_hangman[(len(print_hangman) - 1) - attempts])
+    #initialize class
+    # art for the hangman board
 
-        if "-" not in word_guessed: # no blanks remaining
-            print(("\nCongratulations! {} was the word").format(chosen_word))
-        else: # loop must have ended because attempts reached 0
-            print(("\nUnlucky! The word was {}.").format(chosen_word))
+Hangman_Game()
 
-        print("\nWould you like to play again?")
-
-        response = input("> ").lower()
-        if response not in ("yes", "y"):
-            game = False
-
-if __name__ == "__main__":
-    main()
+# write hangman word to a file
+#returns error message that selected_word is not defined
+f = open("hangman.txt", "w+")
+f.write("Yout HP Hangman word was {}".format(selected_word))
+f.close()
